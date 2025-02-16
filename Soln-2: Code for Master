@@ -1,75 +1,60 @@
 #include <Wire.h>
-
 #define SLAVE_ADDR 8  
 #define SWITCH_PIN A0  
 #define LED1_PIN 10  
 
-String actualPosition = "";  
-String userInput = "";  
+String actualPosition, userInput;
 
 void setup() {
   Serial.begin(9600);
   Wire.begin();
-  pinMode(SWITCH_PIN, INPUT_PULLUP);  // Fix switch detection
+  pinMode(SWITCH_PIN, INPUT_PULLUP);
   pinMode(LED1_PIN, OUTPUT);
-
   Serial.println("Enter switch position guess (Left/left/back/RIGHT/right):");
 }
 
 void loop() {
-  // Read the actual switch position
   int switchState = digitalRead(SWITCH_PIN);
   actualPosition = (switchState == HIGH) ? "right" : "left";  
 
-  // Wait for Serial input
   if (Serial.available() > 0) {
     userInput = Serial.readString();
-    userInput.trim();  // Remove spaces/newlines
+    userInput.trim();
 
     Serial.print("Your Guess: ");
     Serial.println(userInput);
-
-    // Now print the actual position AFTER the guess
     Serial.print("Actual Switch Position: ");
     Serial.println(actualPosition);
 
-    // Handle all 5 cases from the table
     if (actualPosition == "left" && userInput == "Left") {  
       digitalWrite(LED1_PIN, LOW);  
       Serial.println("Case 1: LED1 OFF, LED2 ON");  
       sendLED2State(1);
-    } 
-    else if (actualPosition == "left" && userInput == "left") {  
+    } else if (actualPosition == "left" && userInput == "left") {  
       digitalWrite(LED1_PIN, HIGH);  
       Serial.println("Case 2: LED1 ON, LED2 OFF");  
       sendLED2State(0);
-    } 
-    else if (actualPosition == "right" && userInput == "back") {  
+    } else if (actualPosition == "right" && userInput == "back") {  
       digitalWrite(LED1_PIN, LOW);  
       Serial.println("Case 3: LED1 OFF, LED2 ON");  
       sendLED2State(1);
-    } 
-    else if (actualPosition == "right" && userInput == "RIGHT") {  
+    } else if (actualPosition == "right" && userInput == "RIGHT") {  
       digitalWrite(LED1_PIN, LOW);  
       Serial.println("Case 4: LED1 OFF, LED2 ON");  
       sendLED2State(1);
-    } 
-    else if (actualPosition == "right" && userInput == "right") {  
+    } else if (actualPosition == "right" && userInput == "right") {  
       digitalWrite(LED1_PIN, HIGH);  
       Serial.println("Case 5: LED1 ON, LED2 OFF");  
       sendLED2State(0);
-    } 
-    else {
+    } else {
       Serial.println("Invalid input, no change in LEDs.");
     }
     
     Serial.println("\nEnter another guess:");
   }
-
   delay(500);
 }
 
-// Function to send LED2 state to Slave
 void sendLED2State(int state) {
   Wire.beginTransmission(SLAVE_ADDR);
   Wire.write(state);
