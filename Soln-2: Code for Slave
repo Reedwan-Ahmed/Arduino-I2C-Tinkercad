@@ -1,16 +1,15 @@
 #include <Wire.h>
-
 #define SLAVE_ADDR 8  
 #define LED2_PIN 11  
 
-int led2State = 0;  
+int led2State;
 
 void setup() {
   Wire.begin(SLAVE_ADDR);
   Wire.onReceive(receiveLED2State);
-
   pinMode(LED2_PIN, OUTPUT);
-  digitalWrite(LED2_PIN, LOW); 
+  digitalWrite(LED2_PIN, LOW);
+  Serial.begin(9600);
 }
 
 void loop() {
@@ -20,8 +19,7 @@ void loop() {
 void receiveLED2State(int byteCount) {
   if (Wire.available()) {
     led2State = Wire.read();
-    digitalWrite(LED2_PIN, led2State);  
-
+    digitalWrite(LED2_PIN, led2State);
     Serial.print("LED2 Updated: ");
     Serial.println(led2State ? "ON" : "OFF");
   }
