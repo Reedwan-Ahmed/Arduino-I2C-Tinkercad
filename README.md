@@ -1,4 +1,4 @@
-# 📌 Arduino I2C Projects (For Tinkercad Simulation)
+# 📌 Arduino I2C ASSIGNMENT (For Tinkercad Simulation)
 This repository contains two **Arduino I2C projects** designed for **Tinkercad simulation**.  
 - ✅ **Project 1: Integer Input with LED and LCD**  
 - ✅ **Project 2: Slide Switch Guessing Game**  
