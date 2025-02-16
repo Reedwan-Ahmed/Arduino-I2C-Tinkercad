@@ -1,0 +1,49 @@
+#include <Wire.h>
+#include <Adafruit_LiquidCrystal.h>
+#define SLAVE_ADDR 8  
+Adafruit_LiquidCrystal lcd_1(7);
+
+int n = 0, m = -1; 
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin(SLAVE_ADDR);
+  Wire.onRequest(sendN);
+  Wire.onReceive(receiveM);
+  lcd_1.begin(16, 2);
+  lcd_1.setBacklight(1);  
+  lcd_1.display();        
+  Serial.println("Enter value for n in Serial Monitor-2:");
+  lcd_1.clear();  
+}
+void loop() {
+  if (Serial.available() > 0) {
+    n = Serial.parseInt();
+    Serial.flush();
+    Serial.print("Stored n = ");
+    Serial.println(n);
+  }
+
+  if (m != -1) {  
+    lcd_1.clear();
+    lcd_1.setCursor(0, 0);
+    lcd_1.print("Value: ");
+    lcd_1.print(m);
+
+    Serial.print("LCD Updated: Value = ");
+    Serial.println(m);
+
+    m = -1;  
+  }
+  delay(500);
+}
+void sendN() {
+  Wire.write(n);
+}
+void receiveM(int byteCount) {
+  if (Wire.available()) {
+    m = Wire.read();
+  }
+Serial.print("Received m = ");
+  Serial.println(m);
+}
