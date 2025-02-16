@@ -7,21 +7,22 @@ This repository contains two Arduino I2C projects designed for Tinkercad simulat
 Both projects use I2C communication between two Arduinos (Master: UNO, Slave: Nano/UNO).
 
 📌 Project 1: Integer Input with LED and LCD
-📝 Description
+📝 Description:
 Takes two integer inputs:
 m (from Serial Monitor 1 on the Master - UNO).
 n (from Serial Monitor 2 on the Slave - Nano/UNO).
 Checks condition:
 If m > n: Blink LED (on Master) n times.
 If m ≤ n: Show m on LCD (connected to Slave).
-🔧 How It Works
+
+🔧 How It Works:
 m (Master Input)	n (Slave Input)	Result
 5	4	Blink LED for 4 times
 3	3	Show 3 on LCD
 3	6	Show 3 on LCD
 
 📌 Project 2: Slide Switch Guessing Game
-📝 Description
+📝 Description:
 A slide switch is connected to UNO-2 (Master).
 User guesses the switch position by entering "left" or "right" in Serial Monitor.
 UNO-2 compares the guess with actual switch position:
@@ -34,7 +35,8 @@ left	"left"	ON	OFF
 right	"back"	OFF	ON
 right	"RIGHT"	OFF	ON
 right	"right"	ON	OFF
-🛠️ Hardware Used
+
+🛠️ Hardware Used:
 Arduino UNO (Master - UNO-2)
 Arduino Nano/UNO (Slave - UNO-1)
 I2C Communication (SDA → A4, SCL → A5)
@@ -44,7 +46,7 @@ LED1 (Pin 10 on Master - UNO-2)
 LED2 (Pin 11 on Slave - UNO-1/Nano)
 Resistors (220Ω for LEDs)
 
-🚀 How to Use (Tinkercad Simulation)
+🚀 How to Use (Tinkercad Simulation):
 Set up the circuit in Tinkercad with two Arduinos (UNO & Nano/UNO).
 Upload master.ino to Arduino UNO (Master).
 Upload slave.ino to Arduino Nano/UNO (Slave).
