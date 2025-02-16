@@ -10,18 +10,17 @@ void setup() {
   Wire.onReceive(receiveLED2State);
 
   pinMode(LED2_PIN, OUTPUT);
-  digitalWrite(LED2_PIN, LOW);  // Start with LED2 OFF
+  digitalWrite(LED2_PIN, LOW); 
 }
 
 void loop() {
   delay(100);
 }
 
-// Function to receive LED2 state from Master
 void receiveLED2State(int byteCount) {
   if (Wire.available()) {
     led2State = Wire.read();
-    digitalWrite(LED2_PIN, led2State);  // Turn LED2 ON/OFF
+    digitalWrite(LED2_PIN, led2State);  
 
     Serial.print("LED2 Updated: ");
     Serial.println(led2State ? "ON" : "OFF");
