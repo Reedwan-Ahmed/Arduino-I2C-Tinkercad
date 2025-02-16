@@ -1,5 +1,5 @@
 # Arduino-I2C-Tinkercad
-Arduino I2C Assignment Codes and Tutorial
+Arduino I2C Assignment Codes and Tutorial.
 This repository contains two Arduino I2C projects designed for Tinkercad simulation.
 
 ✅ Project 1: Integer Input with LED and LCD
