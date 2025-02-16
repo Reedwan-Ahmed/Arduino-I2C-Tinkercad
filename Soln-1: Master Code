@@ -1,0 +1,50 @@
+#include <Wire.h>
+#define SLAVE_ADDR 8  
+#define LED_PIN 13  
+
+int m = 0, n = 0;
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin();
+  pinMode(LED_PIN, OUTPUT);
+  
+  Serial.println("Enter value for m in Serial Monitor-1:");
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    m = Serial.parseInt();
+    Serial.flush();
+
+    // Request n from Slave
+    Wire.requestFrom(SLAVE_ADDR, 1);
+    delay(50);  // Allow data to arrive
+    
+    if (Wire.available()) {
+      n = Wire.read();
+    }
+
+    Serial.print("Received n = ");
+    Serial.println(n);
+
+    if (m > n) {
+      Serial.print("Blinking external LED ");
+      Serial.print(n);
+      Serial.println(" times...");
+      
+      for (int i = 0; i < n; i++) {
+        digitalWrite(LED_PIN, HIGH);
+        delay(500);
+        digitalWrite(LED_PIN, LOW);
+        delay(500);
+      }
+    } else {
+      Serial.println("Sending m to Slave for LCD...");
+      Wire.beginTransmission(SLAVE_ADDR);
+      Wire.write(m);
+      Wire.endTransmission();
+      Serial.println("m sent to Slave successfully!");
+    }delay(1000);
+  }
+}
